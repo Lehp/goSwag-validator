@@ -1,0 +1,12 @@
+{
+    "cats": [
+        {
+            "id": 1306,
+            "name": "Stiefel",
+            "path": true
+        }
+    ],
+    "someString": "gigaString",
+    "someBool": false,
+    "someNumb": 21
+}
