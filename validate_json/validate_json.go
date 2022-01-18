@@ -5,7 +5,6 @@ package validate_json
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"reflect"
 	. "github.com/onsi/ginkgo/v2"
@@ -23,8 +22,9 @@ func EquivalentToScheme(res *bytes.Buffer, scheme []byte, resSchemeName string) 
 	json.Unmarshal(scheme, &swaggerScheme)
 
 	schemeLocation := []string{"definitions", resSchemeName, "properties"}
-	resAttributesScheme, err := findObject((swaggerScheme), schemeLocation)
-	if err != nil {
+	resAttributesScheme, errMsg := findObject((swaggerScheme), schemeLocation)
+	if errMsg != "" {
+		prtErr(errMsg)
 		return false
 	}
 
@@ -90,7 +90,6 @@ func findSubValue(key string, node goJson, path string) (interface{}, string) {
 	return nil, ("json Value " + key + " could not be found in " + path)
 }
 
-// TODO path gets passed from so far up can we do anything about this?
 func compareArray(schemeV goJson, jsonValue []interface{}, path string) bool {
 	schemeArrItems, _ := findObject(schemeV, []string{"items", "properties"})
 	isEqual := loopScheme(schemeArrItems, jsonValue[0].(goJson), path)
@@ -101,23 +100,32 @@ func checkNumberType(t string) bool {
 	return (t == "float64" || t == "float32" || t == "float" || t == "integer")
 }
 
-func findObject(node goJson, path []string) (goJson, error) {
-	var err error
+func findObject(node goJson, path []string) (goJson, string) {
+	var err bool
 	for _, attribute := range path {
 		node, err = findSubObject(node, attribute)
-		if err != nil {
-			return nil, err
+		if err {
+			var logPath string
+			for _, pathStr := range path {
+				logPath += "/" + pathStr
+			}
+			errMsg := logPath + " was not found"
+			return nil, errMsg
 		}
 	}
-	return node, nil
+	return node, ""
 }
 
-func findSubObject(node goJson, attName string) (subObject goJson, err error) {
+func findSubObject(node goJson, attName string) (subObject goJson, err bool) {
 	for k, v := range node {
 		if k == attName {
 			subObject = v.(goJson)
 			return
 		}
 	}
-	return nil, errors.New("subObject could not be found")
+	return nil, true
+}
+
+func prtErr(msg string) {
+	GinkgoWriter.Println("SWAGVAL: " + msg)
 }

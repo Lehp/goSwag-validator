@@ -47,6 +47,17 @@ var _ = Describe("json with scheme comparison", func() {
 
 		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats")
 
-		Expect(swaggy).To(Equal(true))
+		Expect(swaggy).To(Equal(false))
+	})
+
+	It("should fail on wrong path", Focus, func() {
+		scheme, _ := os.ReadFile("tests/test_mocks/product_swagger.json")
+        res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
+
+		resBuf := bytes.NewBuffer(res)
+
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "???")
+
+		Expect(swaggy).To(Equal(false))
 	})
 })
