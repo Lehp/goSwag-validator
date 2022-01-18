@@ -50,7 +50,7 @@ var _ = Describe("json with scheme comparison", func() {
 		Expect(swaggy).To(Equal(false))
 	})
 
-	It("should fail on wrong path", Focus, func() {
+	It("should fail on wrong path", func() {
 		scheme, _ := os.ReadFile("tests/test_mocks/product_swagger.json")
         res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
 
