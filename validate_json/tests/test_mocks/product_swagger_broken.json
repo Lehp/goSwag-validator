@@ -1,0 +1,42 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "definitions": {
+        "kats": {
+            "type": "object",
+            "properties": {
+                "cats": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "path": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                },
+                "someString": {
+                    "type": "string"
+                },
+                "someBool": {
+                    "type": "boolean"
+                },
+                "someNumb": {
+                    "type": "number"
+                },
+                "notInRes": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

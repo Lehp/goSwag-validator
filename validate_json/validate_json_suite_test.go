@@ -2,7 +2,6 @@ package validate_json_test
 
 import (
 	"bytes"
-	"fmt"
 	"os"
 	"testing"
 
@@ -19,24 +18,35 @@ func TestSchemeComparison(t *testing.T) {
 
 var _ = Describe("json with scheme comparison", func() {
 	It("should return true on res fitting scheme", func(){
-        scheme, schemeErr := os.ReadFile("tests/test_mocks/product_swagger.json")
-        res, resErr := os.ReadFile("tests/test_mocks/product_res_body.json")
-
-        if (len(scheme) == 0) {
-            fmt.Println(schemeErr.Error())
-            return
-        }
-        if (len(res) == 0) {
-            fmt.Println(resErr.Error())
-            return
-        }
+        scheme, _ := os.ReadFile("tests/test_mocks/product_swagger.json")
+        res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
 
         resBuf := bytes.NewBuffer(res)
 
-		var fits bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats")
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats")
 
-		Expect(fits).To(Equal(true))
+		Expect(swaggy).To(Equal(true))
+	})
 
-		
+	It("should fail on missing attribute in json", func() {
+		scheme, _ := os.ReadFile("tests/test_mocks/product_swagger_broken.json")
+        res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
+
+		resBuf := bytes.NewBuffer(res)
+
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats")
+
+		Expect(swaggy).To(Equal(false))
+	})
+
+	It("should fail on missing attribute in json array", func() {
+		scheme, _ := os.ReadFile("tests/test_mocks/product_swagger_broken_arr.json")
+        res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
+
+		resBuf := bytes.NewBuffer(res)
+
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats")
+
+		Expect(swaggy).To(Equal(true))
 	})
 })

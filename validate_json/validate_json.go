@@ -1,11 +1,14 @@
 package validate_json
 
+// TODO remove casts with generics
+
 import (
 	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"reflect"
+	. "github.com/onsi/ginkgo/v2"
 )
 
 func EquivalentToScheme(res *bytes.Buffer, scheme []byte, resSchemeName string) bool {
@@ -17,76 +20,78 @@ func EquivalentToScheme(res *bytes.Buffer, scheme []byte, resSchemeName string) 
 	json.Unmarshal(res.Bytes(), &jsonRes)
 	json.Unmarshal(scheme, &swaggerScheme)
 
-	var swaggerSchemeVal map[string]interface{} = *&swaggerScheme
-	resAttributesScheme, err := findObject((swaggerSchemeVal), []string{"definitions", resSchemeName, "properties"})
-
+	schemeLocation := []string{"definitions", resSchemeName, "properties"}
+	resAttributesScheme, err := findObject((swaggerScheme), schemeLocation)
 	if err != nil {
 		return false
 	}
 
-	fmt.Println(jsonRes)
-	fmt.Println(resAttributesScheme)
-
-	isEqual := loopScheme(resAttributesScheme, jsonRes)
-
-	if !isEqual {
-		return isEqual
-	}
+	isEqual := loopScheme(resAttributesScheme, jsonRes, resSchemeName)
 	return isEqual
 }
 
-func loopScheme(node map[string]interface{}, jsonObj map[string]interface{}) (bool) {
+func loopScheme(node map[string]interface{}, jsonObj map[string]interface{}, path string) bool {
+
 	for schemeK, schemeV := range node {
-		jsonValue, err := findSubValue(schemeK, jsonObj)
-		if (err != nil) {
-			fmt.Println(err.Error())
+		jsonValue, errMsg := findSubValue(schemeK, jsonObj, path)
+		if errMsg != "" {
+			GinkgoWriter.Println(errMsg)
 			return false
 		}
 
-		if (jsonValue == nil) {
-			errMsg := "The Key " + schemeK + " is not defined"
+		if jsonValue == nil {
+			errMsg := "The Key " + schemeK + " in path " + path + " could not be found"
 			fmt.Println(errMsg)
 			return false
 		}
 
-		if !compare(schemeV, jsonValue) {
-			fmt.Println(node)
+		if !compare(schemeV, schemeK, jsonValue, path) {
 			return false
 		}
 	}
 	return true
 }
 
-func compare(schemeV interface{}, jsonValue interface{}) bool {
-
-	schemeDatatype, _ := findSubValue("type", schemeV.(map[string]interface{}))
+func compare(schemeV interface{}, schemeK string, jsonValue interface{}, path string) bool {
+	schemeDatatype, _ := findSubValue("type", schemeV.(map[string]interface{}), path)
 	jsonType := reflect.TypeOf(jsonValue).Name()
 
 	switch schemeDatatype {
-		case "string":
-			return jsonType == "string"
+	case "string":
+		return jsonType == "string"
 
-		case "integer":
-			return checkNumberType(jsonType)
+	case "integer":
+		return checkNumberType(jsonType)
 
-		case "number":
-			return checkNumberType(jsonType)
+	case "number":
+		return checkNumberType(jsonType)
 
-		case "boolean":
-			return jsonType == "bool"
+	case "boolean":
+		return jsonType == "bool"
 
-		case "array":
-			return compareArray(schemeV.(map[string]interface{}), jsonValue.([]interface{}))
-			
-		default:
-			fmt.Println("is of a type I don't know how to handle", " found in")
-			return false
+	case "array":
+		path += "/" + schemeK
+		return compareArray(schemeV.(map[string]interface{}), jsonValue.([]interface{}), path)
+
+	default:
+		GinkgoWriter.Println(schemeK+" is a unexpected type ", " found in " + path)
+		return false
 	}
 }
 
-func compareArray(schemeV map[string]interface{}, jsonValue []interface{}) bool {
+func findSubValue(key string, node map[string]interface{}, path string) (interface{}, string) {
+	for k, v := range node {
+		if k == key {
+			return v, ""
+		}
+	}
+	return nil, ("json Value " + key + " could not be found in " + path)
+}
+
+// TODO path gets passed from so far up can we do anything about this?
+func compareArray(schemeV map[string]interface{}, jsonValue []interface{}, path string) bool {
 	schemeArrItems, _ := findObject(schemeV, []string{"items", "properties"})
-	isEqual := loopScheme(schemeArrItems, jsonValue[0].(map[string]interface{}))
+	isEqual := loopScheme(schemeArrItems, jsonValue[0].(map[string]interface{}), path)
 	return isEqual
 }
 
@@ -113,13 +118,4 @@ func findSubObject(node map[string]interface{}, attName string) (subObject map[s
 		}
 	}
 	return nil, errors.New("subObject could not be found")
-}
-
-func findSubValue(key string, node map[string]interface{}) (value interface{}, err error) {
-	for k, v := range node {
-		if k == key {
-			return v, nil
-		}
-	}
-	return nil, errors.New("subValue could not be found" + key)
 }
