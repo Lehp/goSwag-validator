@@ -11,10 +11,12 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 )
 
+type goJson = map[string]interface{}
+
 func EquivalentToScheme(res *bytes.Buffer, scheme []byte, resSchemeName string) bool {
 	var (
-		jsonRes       map[string]interface{}
-		swaggerScheme map[string]interface{}
+		jsonRes       goJson
+		swaggerScheme goJson
 	)
 
 	json.Unmarshal(res.Bytes(), &jsonRes)
@@ -30,7 +32,7 @@ func EquivalentToScheme(res *bytes.Buffer, scheme []byte, resSchemeName string) 
 	return isEqual
 }
 
-func loopScheme(node map[string]interface{}, jsonObj map[string]interface{}, path string) bool {
+func loopScheme(node goJson, jsonObj goJson, path string) bool {
 
 	for schemeK, schemeV := range node {
 		jsonValue, errMsg := findSubValue(schemeK, jsonObj, path)
@@ -53,7 +55,7 @@ func loopScheme(node map[string]interface{}, jsonObj map[string]interface{}, pat
 }
 
 func compare(schemeV interface{}, schemeK string, jsonValue interface{}, path string) bool {
-	schemeDatatype, _ := findSubValue("type", schemeV.(map[string]interface{}), path)
+	schemeDatatype, _ := findSubValue("type", schemeV.(goJson), path)
 	jsonType := reflect.TypeOf(jsonValue).Name()
 
 	switch schemeDatatype {
@@ -71,7 +73,7 @@ func compare(schemeV interface{}, schemeK string, jsonValue interface{}, path st
 
 	case "array":
 		path += "/" + schemeK
-		return compareArray(schemeV.(map[string]interface{}), jsonValue.([]interface{}), path)
+		return compareArray(schemeV.(goJson), jsonValue.([]interface{}), path)
 
 	default:
 		GinkgoWriter.Println(schemeK+" is a unexpected type ", " found in " + path)
@@ -79,7 +81,7 @@ func compare(schemeV interface{}, schemeK string, jsonValue interface{}, path st
 	}
 }
 
-func findSubValue(key string, node map[string]interface{}, path string) (interface{}, string) {
+func findSubValue(key string, node goJson, path string) (interface{}, string) {
 	for k, v := range node {
 		if k == key {
 			return v, ""
@@ -89,9 +91,9 @@ func findSubValue(key string, node map[string]interface{}, path string) (interfa
 }
 
 // TODO path gets passed from so far up can we do anything about this?
-func compareArray(schemeV map[string]interface{}, jsonValue []interface{}, path string) bool {
+func compareArray(schemeV goJson, jsonValue []interface{}, path string) bool {
 	schemeArrItems, _ := findObject(schemeV, []string{"items", "properties"})
-	isEqual := loopScheme(schemeArrItems, jsonValue[0].(map[string]interface{}), path)
+	isEqual := loopScheme(schemeArrItems, jsonValue[0].(goJson), path)
 	return isEqual
 }
 
@@ -99,7 +101,7 @@ func checkNumberType(t string) bool {
 	return (t == "float64" || t == "float32" || t == "float" || t == "integer")
 }
 
-func findObject(node map[string]interface{}, path []string) (map[string]interface{}, error) {
+func findObject(node goJson, path []string) (goJson, error) {
 	var err error
 	for _, attribute := range path {
 		node, err = findSubObject(node, attribute)
@@ -110,10 +112,10 @@ func findObject(node map[string]interface{}, path []string) (map[string]interfac
 	return node, nil
 }
 
-func findSubObject(node map[string]interface{}, attName string) (subObject map[string]interface{}, err error) {
+func findSubObject(node goJson, attName string) (subObject goJson, err error) {
 	for k, v := range node {
 		if k == attName {
-			subObject = v.(map[string]interface{})
+			subObject = v.(goJson)
 			return
 		}
 	}
