@@ -1,0 +1,691 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/cart/AddGiftWrapping": {
+            "put": {
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "description": "add Gift Wrappng to an Order",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cart"
+                ],
+                "summary": "Gift Wrapping Cart",
+                "operationId": "AddGiftWrappingV2",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session-key",
+                        "name": "session",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "set propper portal",
+                        "name": "site",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "schema": {
+                            "$ref": "#/definitions/com.UpdateQuantityDto"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Check API Key and Token.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Endpoint not defined, missing query values or internal error.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error. Check Logs.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/cart/cart": {
+            "get": {
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "description": "Get a Specific Cart with all available Data",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cart"
+                ],
+                "summary": "Get a Specific Cart with all available Data",
+                "operationId": "GetCartV2",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "cart-session",
+                        "name": "session",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "set propper portal",
+                        "name": "site",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "if this parameter is set, we have to recalculate the whole cart and check if all articles are still available",
+                        "name": "recalc",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "schema": {
+                            "$ref": "#/definitions/com.CartDto"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Check API Key and Token.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Endpoint not defined, missing query values or internal error.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error. Check Logs.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/cart/cartItem": {
+            "put": {
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "description": "Add a new Product to Basket or increase the quantity of an existing Product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cart"
+                ],
+                "summary": "Alter the Quantity of an Item in your Cart",
+                "operationId": "updateItemQuantityV2",
+                "parameters": [
+                    {
+                        "description": "object with all elements to create a Cart",
+                        "name": "message",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/com.CartItemPosition"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "set propper portal",
+                        "name": "site",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "schema": {
+                            "$ref": "#/definitions/com.UpdateQuantityDto"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Check API Key and Token.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Endpoint not defined, missing query values or internal error.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error. Check Logs.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/cart/o/create": {
+            "post": {
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "description": "Create a new Cart or Wishlist",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cart"
+                ],
+                "summary": "Create a new Cart or Wishlist",
+                "operationId": "CreateCartVGeneral",
+                "parameters": [
+                    {
+                        "description": "User Data",
+                        "name": "message",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/com.CreateCartDto"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "set propper portal",
+                        "name": "site",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "schema": {
+                            "$ref": "#/definitions/controller.CartId"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Check API Key and Token.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Endpoint not defined, missing query values or internal error.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error. Check Logs.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/cart/o/deleteCart": {
+            "get": {
+                "description": "Set a specific Cart to Status deleted",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cart private"
+                ],
+                "summary": "Set a specific Cart to Status deleted",
+                "operationId": "DeleteCartGeneral",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "session of cart which should be deleted",
+                        "name": "session",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Check API Key and Token.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Endpoint not defined, missing query values or internal error.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error. Check Logs.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/cart/o/deleteOldCarts": {
+            "get": {
+                "description": "Delete all old Carts from Database or set them on delete-status",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cart private"
+                ],
+                "summary": "Delete all old Carts from Database or set them on delete-status",
+                "operationId": "DeleteOldCartsVGeneral",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "days that the baskets no longer need to be processed for them to be deleted.",
+                        "name": "days",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Decide if Cart will be set to deleted Status or will be deleted from Database ",
+                        "name": "hardDelete",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Check API Key and Token.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Endpoint not defined, missing query values or internal error.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error. Check Logs.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/cart/o/removeVoucher": {
+            "get": {
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "description": "remove a redeemed voucher from this cart",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cart"
+                ],
+                "summary": "remove a redeemed voucher from this cart",
+                "operationId": "RemoveVucherVGeneral",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session-key",
+                        "name": "session",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Check API Key and Token.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Endpoint not defined, missing query values or internal error.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error. Check Logs.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/cart/redeemVoucher": {
+            "get": {
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "description": "Redeem a voucher on this cart",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cart"
+                ],
+                "summary": "Redeem a voucher on this cart",
+                "operationId": "RedeemVoucherV2",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session-key",
+                        "name": "session",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "set propper portal",
+                        "name": "site",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "voucher code of the voucher to be redeemed",
+                        "name": "voucher",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "schema": {
+                            "$ref": "#/definitions/com.CartDto"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized. Check API Key and Token.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Endpoint not defined, missing query values or internal error.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error. Check Logs.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "com.CartDto": {
+            "type": "object",
+            "properties": {
+                "cart_total_price": {
+                    "description": "Alle Items Reduziert + Versandkosten",
+                    "type": "number"
+                },
+                "checkout_total_price": {
+                    "description": "Alle Items Reduziert + Versandkosten + Gutscheine + Geschenksverpackung",
+                    "type": "number"
+                },
+                "checkout_total_savings": {
+                    "description": "Alle Items Original - (Alle Items Reduziert Preis + Gutscheine)",
+                    "type": "number"
+                },
+                "coupons": {
+                    "$ref": "#/definitions/com.Redeem"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "expectedDelivery": {
+                    "$ref": "#/definitions/com.DeliveryDto"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/com.CartItemDto"
+                    }
+                },
+                "last_change": {
+                    "type": "string"
+                },
+                "session": {
+                    "type": "string"
+                },
+                "small_quantity_subcharge": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "com.CartItemDto": {
+            "type": "object",
+            "properties": {
+                "article_id": {
+                    "type": "integer"
+                },
+                "article_link": {
+                    "type": "string"
+                },
+                "article_title": {
+                    "type": "string"
+                },
+                "brand": {
+                    "type": "string"
+                },
+                "colour": {
+                    "type": "string"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "delivery_period": {
+                    "type": "integer"
+                },
+                "discount": {
+                    "type": "integer"
+                },
+                "discount_price": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "size_id": {
+                    "type": "integer"
+                },
+                "size_title": {
+                    "type": "string"
+                },
+                "size_title_alternative": {
+                    "type": "string"
+                },
+                "size_uid": {
+                    "type": "string"
+                },
+                "stock": {
+                    "type": "integer"
+                },
+                "uid": {
+                    "type": "string"
+                }
+            }
+        },
+        "com.CartItemPosition": {
+            "type": "object",
+            "properties": {
+                "quantity": {
+                    "type": "integer"
+                },
+                "session": {
+                    "type": "string"
+                },
+                "size_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "com.CreateCartDto": {
+            "type": "object",
+            "required": [
+                "session"
+            ],
+            "properties": {
+                "session": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "integer"
+                },
+                "userEmail": {
+                    "type": "string"
+                }
+            }
+        },
+        "com.DeliveryDto": {
+            "type": "object",
+            "properties": {
+                "Y": {
+                    "type": "integer"
+                },
+                "d": {
+                    "type": "integer"
+                },
+                "full": {
+                    "type": "string"
+                },
+                "m": {
+                    "type": "integer"
+                },
+                "weekday": {
+                    "type": "integer"
+                }
+            }
+        },
+        "com.Redeem": {
+            "type": "object",
+            "properties": {
+                "amountWithVoucher": {
+                    "type": "number"
+                },
+                "amountWithoutVoucher": {
+                    "type": "number"
+                },
+                "couponRedemption": {
+                    "type": "number"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "priceDiff": {
+                    "type": "number"
+                },
+                "voucherCode": {
+                    "type": "string"
+                },
+                "voucherName": {
+                    "type": "string"
+                }
+            }
+        },
+        "com.UpdateQuantityDto": {
+            "type": "object",
+            "properties": {
+                "cart": {
+                    "$ref": "#/definitions/com.CartDto"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "controller.CartId": {
+            "type": "object",
+            "properties": {
+                "cartId": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BasicAuth": {
+            "type": "basic"
+        }
+    }
+}

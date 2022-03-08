@@ -17,11 +17,10 @@ func TestSchemeComparison(t *testing.T) {
 }
 
 var _ = Describe("json with scheme comparison", func() {
-	It("should return true on res fitting scheme", func(){
-        scheme, _ := os.ReadFile("tests/test_mocks/product_swagger.json")
-        res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
-
-        resBuf := bytes.NewBuffer(res)
+	It("should return true on res fitting scheme", func() {
+		scheme, _ := os.ReadFile("tests/test_mocks/product_swagger.json")
+		res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
+		resBuf := bytes.NewBuffer(res)
 
 		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats")
 
@@ -30,8 +29,7 @@ var _ = Describe("json with scheme comparison", func() {
 
 	It("should fail on missing attribute in json", func() {
 		scheme, _ := os.ReadFile("tests/test_mocks/product_swagger_broken.json")
-        res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
-
+		res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
 		resBuf := bytes.NewBuffer(res)
 
 		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats")
@@ -41,7 +39,39 @@ var _ = Describe("json with scheme comparison", func() {
 
 	It("should fail on missing attribute in json array", func() {
 		scheme, _ := os.ReadFile("tests/test_mocks/product_swagger_broken_arr.json")
-        res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
+		res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
+		resBuf := bytes.NewBuffer(res)
+
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats")
+
+		Expect(swaggy).To(Equal(false))
+	})
+
+	It("should fail on wrong path", func() {
+		scheme, _ := os.ReadFile("tests/test_mocks/product_swagger.json")
+		res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
+		resBuf := bytes.NewBuffer(res)
+
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "???")
+
+		Expect(swaggy).To(Equal(false))
+	})
+})
+
+var _ = Describe("json with scheme comparison gomega", func() {
+	It("should fail on missing attribute in json", func() {
+		scheme, _ := os.ReadFile("tests/test_mocks/product_swagger_broken.json")
+		res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
+		resBuf := bytes.NewBuffer(res)
+
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats")
+
+		Expect(swaggy).To(Equal(false))
+	})
+
+	It("should fail on missing attribute in json array", func() {
+		scheme, _ := os.ReadFile("tests/test_mocks/product_swagger_broken_arr.json")
+		res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
 
 		resBuf := bytes.NewBuffer(res)
 
@@ -52,12 +82,25 @@ var _ = Describe("json with scheme comparison", func() {
 
 	It("should fail on wrong path", func() {
 		scheme, _ := os.ReadFile("tests/test_mocks/product_swagger.json")
-        res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
+		res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
 
 		resBuf := bytes.NewBuffer(res)
 
 		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "???")
 
 		Expect(swaggy).To(Equal(false))
+	})
+})
+
+var _ = Describe("json with scheme comparison", func() {
+	It("should compare nested swagfile", func() {
+		scheme, _ := os.ReadFile("tests/test_mocks/nested/cartService.json")
+		res, _ := os.ReadFile("tests/test_mocks/nested/updateCartRes.json")
+
+		resBuf := bytes.NewBuffer(res)
+
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "com.UpdateQuantityDto")
+
+		Expect(swaggy).To(Equal(true))
 	})
 })

@@ -1,0 +1,51 @@
+{
+   "message":"wurde in den Warenkorb gelegt.",
+   "cart":{
+      "id":182,
+      "last_change":"Wed, 02 Mar 2022 12:09:25 +0100",
+      "created_at":"Mon, 28 Feb 2022 14:49:59 +0100",
+      "session":"abc",
+      "items":[
+         {
+            "id":3184,
+            "uid":"12f149f8dc59c99fef0d4476039cb969",
+            "article_id":101159,
+            "article_link":"cool-kick-fusslinge_101159",
+            "brand":"Falke",
+            "colour":"schwarz",
+            "article_title":"Cool Kick Füsslinge",
+            "size_id":9282,
+            "size_uid":"12f149f8dc59c99fef0d4476039cb969",
+            "size_title":"43",
+            "size_title_alternative":"42-43",
+            "delivery_period":30,
+            "stock":22,
+            "price":12.9,
+            "currency":"CHF",
+            "discount_price":12.9,
+            "quantity":19,
+            "image":"070_00_0045/070_00_0045-1"
+         }
+      ],
+      "coupons":{
+         "price":0,
+         "couponRedemption":0,
+         "voucherName":"",
+         "voucherCode":"",
+         "amountWithoutVoucher":0,
+         "amountWithVoucher":0,
+         "priceDiff":0
+      },
+      "small_quantity_subcharge":false,
+      "cart_total_price":245.1,
+      "checkout_total_price":245.1,
+      "checkout_total_savings":0,
+      "expectedDelivery":{
+         "weekday":5,
+         "d":4,
+         "m":3,
+         "Y":2022,
+         "full":"03.04.2022"
+      }
+   }
+}

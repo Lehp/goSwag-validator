@@ -7,10 +7,17 @@ import (
 	"encoding/json"
 	"fmt"
 	"reflect"
+	"strings"
+
 	. "github.com/onsi/ginkgo/v2"
 )
 
 type goJson = map[string]interface{}
+
+var (
+	definitions goJson
+	defErrMsg   string
+)
 
 func EquivalentToScheme(res *bytes.Buffer, scheme []byte, resSchemeName string) bool {
 	var (
@@ -28,12 +35,31 @@ func EquivalentToScheme(res *bytes.Buffer, scheme []byte, resSchemeName string) 
 		return false
 	}
 
+	definitions, defErrMsg = findObject((swaggerScheme), []string{"definitions"})
+	if defErrMsg != "" {
+		prtErr(defErrMsg)
+		return false
+	}
+
 	isEqual := loopScheme(resAttributesScheme, jsonRes, resSchemeName)
 	return isEqual
 }
 
-func loopScheme(node goJson, jsonObj goJson, path string) bool {
+func mapReferences(schemeV interface{}, path string) interface{} {
+	ref, err := findSubValue("$ref", schemeV.(goJson), path)
+	if err != "" {
+		return schemeV
+	}
+	defName := strings.Split(ref.(string), "/")[2]
 
+	value, referenceErr := findSubValue(defName, definitions, "definitions")
+	if referenceErr != "" {
+		return schemeV
+	}
+	return value
+}
+
+func loopScheme(node goJson, jsonObj goJson, path string) bool {
 	for schemeK, schemeV := range node {
 		jsonValue, errMsg := findSubValue(schemeK, jsonObj, path)
 		if errMsg != "" {
@@ -55,6 +81,7 @@ func loopScheme(node goJson, jsonObj goJson, path string) bool {
 }
 
 func compare(schemeV interface{}, schemeK string, jsonValue interface{}, path string) bool {
+	schemeV = mapReferences(schemeV, path)
 	schemeDatatype, _ := findSubValue("type", schemeV.(goJson), path)
 	jsonType := reflect.TypeOf(jsonValue).Name()
 
@@ -74,9 +101,13 @@ func compare(schemeV interface{}, schemeK string, jsonValue interface{}, path st
 	case "array":
 		path += "/" + schemeK
 		return compareArray(schemeV.(goJson), jsonValue.([]interface{}), path)
+	case "object":
+		path += "/" + schemeK
+		schemeObjItems, _ := findObject(schemeV.(goJson), []string{"properties"})
+		return loopScheme(schemeObjItems, jsonValue.(goJson), path)
 
 	default:
-		GinkgoWriter.Println(schemeK+" is a unexpected type ", " found in " + path)
+		GinkgoWriter.Println(schemeK+" has a unexpected type: "+schemeK, " found in "+path)
 		return false
 	}
 }
