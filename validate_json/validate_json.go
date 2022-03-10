@@ -22,10 +22,20 @@ var (
 func EquivalentToScheme(res *bytes.Buffer, scheme []byte, resSchemeName string) bool {
 	var (
 		jsonRes       goJson
+		jsonResArr    []goJson
 		swaggerScheme goJson
 	)
 
-	json.Unmarshal(res.Bytes(), &jsonRes)
+	objErr := json.Unmarshal(res.Bytes(), &jsonRes)
+	if objErr != nil {
+		arrErr := json.Unmarshal(res.Bytes(), &jsonResArr)
+		if arrErr != nil {
+			GinkgoWriter.Println("your Json-res could not be parsed. Is it of type obj or Arr?")
+			return false
+		}
+		jsonRes = jsonResArr[0]
+		GinkgoWriter.Println("Only index0 of your file will be analyzed")
+	}
 	json.Unmarshal(scheme, &swaggerScheme)
 
 	schemeLocation := []string{"definitions", resSchemeName, "properties"}

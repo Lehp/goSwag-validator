@@ -103,4 +103,15 @@ var _ = Describe("json with scheme comparison", func() {
 
 		Expect(swaggy).To(Equal(true))
 	})
+
+	It("should compare array swagfile", func() {
+		scheme, _ := os.ReadFile("tests/test_mocks/size/sizeSwagger.json")
+		res, _ := os.ReadFile("tests/test_mocks/size/sizeRes.json")
+
+		resBuf := bytes.NewBuffer(res)
+
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "com.ProductSizeV2")
+
+		Expect(swaggy).To(Equal(true))
+	})
 })

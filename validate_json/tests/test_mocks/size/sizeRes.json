@@ -1,0 +1,336 @@
+[
+    {
+        "id": 22686,
+        "article_id": 103242,
+        "title": "28",
+        "title_alternative": "28",
+        "price": 119.9,
+        "currency": "CHF",
+        "discount_price": 89.9,
+        "discount": 25,
+        "availability_state": 30,
+        "delivery_period": 30,
+        "hide_size_select": false,
+        "gtin": "bignUmera190233",
+        "availabilities": [
+            {
+                "title": "Herisau",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Aadorf",
+                "availability_state": 0
+            },
+            {
+                "title": "Kreuzlingen",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Bülach",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Outlet Herisau",
+                "availability_state": 0
+            },
+            {
+                "title": "Zentrallager",
+                "availability_state": 0
+            }
+        ]
+    },
+    {
+        "id": 22689,
+        "article_id": 103242,
+        "title": "29",
+        "title_alternative": "29",
+        "price": 119.9,
+        "currency": "CHF",
+        "discount_price": 89.9,
+        "discount": 25,
+        "availability_state": 30,
+        "delivery_period": 30,
+        "hide_size_select": false,
+        "availabilities": [
+            {
+                "title": "Herisau",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Aadorf",
+                "availability_state": 0
+            },
+            {
+                "title": "Kreuzlingen",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Bülach",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Outlet Herisau",
+                "availability_state": 0
+            },
+            {
+                "title": "Zentrallager",
+                "availability_state": 0
+            }
+        ]
+    },
+    {
+        "id": 22690,
+        "article_id": 103242,
+        "title": "30",
+        "title_alternative": "30",
+        "price": 119.9,
+        "currency": "CHF",
+        "discount_price": 89.9,
+        "discount": 25,
+        "availability_state": 30,
+        "delivery_period": 30,
+        "hide_size_select": false,
+        "availabilities": [
+            {
+                "title": "Herisau",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Aadorf",
+                "availability_state": 0
+            },
+            {
+                "title": "Kreuzlingen",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Bülach",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Outlet Herisau",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Zentrallager",
+                "availability_state": 0
+            }
+        ]
+    },
+    {
+        "id": 22691,
+        "article_id": 103242,
+        "title": "31",
+        "title_alternative": "31",
+        "price": 129.9,
+        "currency": "CHF",
+        "discount_price": 99.9,
+        "discount": 23,
+        "availability_state": 30,
+        "delivery_period": 30,
+        "hide_size_select": false,
+        "availabilities": [
+            {
+                "title": "Herisau",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Aadorf",
+                "availability_state": 0
+            },
+            {
+                "title": "Kreuzlingen",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Bülach",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Outlet Herisau",
+                "availability_state": 0
+            },
+            {
+                "title": "Zentrallager",
+                "availability_state": 0
+            }
+        ]
+    },
+    {
+        "id": 22692,
+        "article_id": 103242,
+        "title": "32",
+        "title_alternative": "32",
+        "price": 129.9,
+        "currency": "CHF",
+        "discount_price": 99.9,
+        "discount": 23,
+        "availability_state": 20,
+        "delivery_period": 30,
+        "hide_size_select": false,
+        "availabilities": [
+            {
+                "title": "Herisau",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Aadorf",
+                "availability_state": 0
+            },
+            {
+                "title": "Kreuzlingen",
+                "availability_state": 0
+            },
+            {
+                "title": "Bülach",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Outlet Herisau",
+                "availability_state": 0
+            },
+            {
+                "title": "Zentrallager",
+                "availability_state": 0
+            }
+        ]
+    },
+    {
+        "id": 22693,
+        "article_id": 103242,
+        "title": "33",
+        "title_alternative": "33",
+        "price": 129.9,
+        "currency": "CHF",
+        "discount_price": 99.9,
+        "discount": 23,
+        "availability_state": 30,
+        "delivery_period": 30,
+        "hide_size_select": false,
+        "availabilities": [
+            {
+                "title": "Herisau",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Aadorf",
+                "availability_state": 0
+            },
+            {
+                "title": "Kreuzlingen",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Bülach",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Outlet Herisau",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Zentrallager",
+                "availability_state": 0
+            }
+        ]
+    },
+    {
+        "id": 22694,
+        "article_id": 103242,
+        "title": "34",
+        "title_alternative": "34",
+        "price": 129.9,
+        "currency": "CHF",
+        "discount_price": 99.9,
+        "discount": 23,
+        "availability_state": 20,
+        "delivery_period": 30,
+        "hide_size_select": false,
+        "availabilities": [
+            {
+                "title": "Herisau",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Aadorf",
+                "availability_state": 0
+            },
+            {
+                "title": "Kreuzlingen",
+                "availability_state": 0
+            },
+            {
+                "title": "Bülach",
+                "availability_state": 0
+            },
+            {
+                "title": "Outlet Herisau",
+                "availability_state": 0
+            },
+            {
+                "title": "Zentrallager",
+                "availability_state": 0
+            }
+        ]
+    },
+    {
+        "id": 22695,
+        "article_id": 103242,
+        "title": "35",
+        "title_alternative": "35",
+        "price": 129.9,
+        "currency": "CHF",
+        "discount_price": 99.9,
+        "discount": 23,
+        "availability_state": 20,
+        "delivery_period": 20,
+        "hide_size_select": false,
+        "availabilities": [
+            {
+                "title": "Herisau",
+                "availability_state": 0
+            },
+            {
+                "title": "Aadorf",
+                "availability_state": 0
+            },
+            {
+                "title": "Kreuzlingen",
+                "stock": 1,
+                "availability_state": 20
+            },
+            {
+                "title": "Bülach",
+                "availability_state": 0
+            },
+            {
+                "title": "Outlet Herisau",
+                "availability_state": 0
+            },
+            {
+                "title": "Zentrallager",
+                "availability_state": 0
+            }
+        ]
+    }
+]
