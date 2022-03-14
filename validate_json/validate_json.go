@@ -5,7 +5,6 @@ package validate_json
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"reflect"
 	"strings"
 
@@ -86,7 +85,7 @@ func loopScheme(node goJson, jsonObj goJson, path string) bool {
 
 		if jsonValue == nil {
 			errMsg := "The Key " + schemeK + " in path " + path + " could not be found"
-			fmt.Println(errMsg)
+			GinkgoWriter.Println(errMsg)
 			return false
 		}
 
