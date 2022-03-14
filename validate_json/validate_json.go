@@ -84,6 +84,8 @@ func loopScheme(node goJson, jsonObj goJson, path string) bool {
 		}
 
 		if !compare(schemeV, schemeK, jsonValue, path) {
+			msg := path + schemeK + " does not equal it's json Value"
+			GinkgoWriter.Println(msg)
 			return false
 		}
 	}
