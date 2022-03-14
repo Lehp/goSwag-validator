@@ -22,7 +22,7 @@ var _ = Describe("json with scheme comparison", func() {
 		res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
 		resBuf := bytes.NewBuffer(res)
 
-		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats")
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats", []string{})
 
 		Expect(swaggy).To(Equal(true))
 	})
@@ -32,7 +32,7 @@ var _ = Describe("json with scheme comparison", func() {
 		res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
 		resBuf := bytes.NewBuffer(res)
 
-		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats")
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats", []string{})
 
 		Expect(swaggy).To(Equal(false))
 	})
@@ -42,7 +42,7 @@ var _ = Describe("json with scheme comparison", func() {
 		res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
 		resBuf := bytes.NewBuffer(res)
 
-		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats")
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats", []string{})
 
 		Expect(swaggy).To(Equal(false))
 	})
@@ -52,9 +52,19 @@ var _ = Describe("json with scheme comparison", func() {
 		res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
 		resBuf := bytes.NewBuffer(res)
 
-		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "???")
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "???", []string{})
 
 		Expect(swaggy).To(Equal(false))
+	})
+
+	It("should ignore field", Focus, func() {
+		scheme, _ := os.ReadFile("tests/test_mocks/ignore_field.json")
+		res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
+		resBuf := bytes.NewBuffer(res)
+
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats", []string{"ignore"})
+
+		Expect(swaggy).To(Equal(true))
 	})
 })
 
@@ -64,7 +74,7 @@ var _ = Describe("json with scheme comparison gomega", func() {
 		res, _ := os.ReadFile("tests/test_mocks/product_res_body.json")
 		resBuf := bytes.NewBuffer(res)
 
-		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats")
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats", []string{})
 
 		Expect(swaggy).To(Equal(false))
 	})
@@ -75,7 +85,7 @@ var _ = Describe("json with scheme comparison gomega", func() {
 
 		resBuf := bytes.NewBuffer(res)
 
-		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats")
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "kats", []string{})
 
 		Expect(swaggy).To(Equal(false))
 	})
@@ -86,7 +96,7 @@ var _ = Describe("json with scheme comparison gomega", func() {
 
 		resBuf := bytes.NewBuffer(res)
 
-		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "???")
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "???", []string{})
 
 		Expect(swaggy).To(Equal(false))
 	})
@@ -99,7 +109,7 @@ var _ = Describe("json with scheme comparison", func() {
 
 		resBuf := bytes.NewBuffer(res)
 
-		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "com.UpdateQuantityDto")
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "com.UpdateQuantityDto", []string{})
 
 		Expect(swaggy).To(Equal(true))
 	})
@@ -110,7 +120,7 @@ var _ = Describe("json with scheme comparison", func() {
 
 		resBuf := bytes.NewBuffer(res)
 
-		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "com.ProductSizeV2")
+		var swaggy bool = validate_json.EquivalentToScheme(resBuf, scheme, "com.ProductSizeV2", []string{})
 
 		Expect(swaggy).To(Equal(true))
 	})

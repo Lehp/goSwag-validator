@@ -17,14 +17,16 @@ type goJson = map[string]interface{}
 var (
 	definitions goJson
 	defErrMsg   string
+	ignored     []string
 )
 
-func EquivalentToScheme(res *bytes.Buffer, scheme []byte, resSchemeName string) bool {
+func EquivalentToScheme(res *bytes.Buffer, scheme []byte, resSchemeName string, exclude []string) bool {
 	var (
 		jsonRes       goJson
 		jsonResArr    []goJson
 		swaggerScheme goJson
 	)
+	ignored = exclude
 
 	objErr := json.Unmarshal(res.Bytes(), &jsonRes)
 	if objErr != nil {
@@ -72,6 +74,11 @@ func mapReferences(schemeV interface{}, path string) interface{} {
 func loopScheme(node goJson, jsonObj goJson, path string) bool {
 	for schemeK, schemeV := range node {
 		jsonValue, errMsg := findSubValue(schemeK, jsonObj, path)
+		for _, ignoredField := range ignored {
+			if schemeK == ignoredField {
+				return true
+			}
+		}
 		if errMsg != "" {
 			GinkgoWriter.Println(errMsg)
 			return false
